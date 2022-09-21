@@ -1,0 +1,44 @@
+
+name: 'Regenerate code'
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'endpoints.yaml'
+
+jobs:
+  regenerate_code:
+    name: Regenerate code
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.DOCUBOT_READORG_REPO_WORKFLOW_SCOPES }}
+      FIRST_RESPONDER_PROJECT: Docs content first responder
+      REPORT_AUTHOR: docubot
+      REPORT_LABEL: broken link report
+      REPORT_REPOSITORY: github/docs-content
+    steps:
+      - name: Checkout query2app
+        uses: actions/checkout@master
+        with:
+          repository: php-coder/query2app
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.x
+          cache: npm
+      - name: Install packages
+        run: npm ci
+      - name: Generate python code
+        run: ./src/cli.js --lang python
+      - name: Checkout this repo
+        uses: actions/checkout@master
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add app.py
+          git add routes.py
+          git add requirements.txt
+          git commit -m "generated"
+          git push
