@@ -31,19 +31,14 @@ jobs:
           node-version: 16.13.x
           cache: npm
           cache-dependency-path: 'query2app'
-      - name: ls -la
-        run: ls -la
-      - name: cd query2app
-        run: cd query2app
-      - name: ls -la
-        run: ls -la
       - name: Install packages
+        working-directory: ./query2app
         run: npm ci
-      - name: cd generate
-        run: cd generate
       - name: Generate python code
+        working-directory: ./generate
         run: ../query2app/src/cli.js --lang python
       - name: Push generated files
+        working-directory: ./generate
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
