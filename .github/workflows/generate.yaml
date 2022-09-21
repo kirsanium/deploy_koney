@@ -30,6 +30,8 @@ jobs:
           cache: npm
       - name: Install packages
         run: npm ci
+      - name: ls -la
+        rum: ls -la
       - name: Generate python code
         run: ./src/cli.js --lang python
       - name: Checkout this repo

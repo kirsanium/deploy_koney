@@ -85,4 +85,3 @@
       DELETE
         FROM categories
        WHERE id = :p.categoryId
-
