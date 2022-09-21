@@ -13,13 +13,12 @@ jobs:
   regenerate_code:
     name: Regenerate code
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.DOCUBOT_READORG_REPO_WORKFLOW_SCOPES }}
-      FIRST_RESPONDER_PROJECT: Docs content first responder
-      REPORT_AUTHOR: docubot
-      REPORT_LABEL: broken link report
-      REPORT_REPOSITORY: github/docs-content
     steps:
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.x
+          cache: npm
       - name: Checkout this repo
         uses: actions/checkout@master
         with:
@@ -33,11 +32,6 @@ jobs:
           path: 'query2app'
       - name: cd query2app
         run: cd query2app
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.x
-          cache: npm
       - name: Install packages
         run: npm ci
       - name: ls -la
