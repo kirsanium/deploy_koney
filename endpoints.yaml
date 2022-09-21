@@ -1,0 +1,87 @@
+- path: /v1/categories/count
+  get:
+    query: SELECT COUNT(*) AS counter FROM categories
+    dto:
+      name: CounterDto
+      fields:
+        counter:
+          type: integer
+
+- path: /v1/collections/:collectionId/categories/count
+  get:
+    query: >-
+      SELECT COUNT(DISTINCT s.category_id) AS counter
+        FROM collections_series cs
+        JOIN series s
+          ON s.id = cs.series_id
+       WHERE cs.collection_id = :p.collectionId
+    dto:
+      fields:
+        counter:
+          type: integer
+
+- path: /v1/categories
+  get_list:
+    query: >-
+      SELECT id
+           , name
+           , name_ru
+           , slug
+        FROM categories
+    dto:
+      name: CategoryDto
+      fields:
+        id:
+          type: integer
+  post:
+    query: >-
+      INSERT
+        INTO categories
+           ( name
+           , name_ru
+           , slug
+           , created_at
+           , created_by
+           , updated_at
+           , updated_by
+           )
+      VALUES
+          ( :b.name
+          , :b.name_ru
+          , :b.slug
+          , NOW()
+          , :b.user_id
+          , NOW()
+          , :b.user_id
+          )
+    dto:
+      name: CreateCategoryDto
+
+- path: /v1/categories/:categoryId
+  get:
+    query: >-
+      SELECT id
+           , name
+           , name_ru
+           , slug
+        FROM categories
+       WHERE id = :p.categoryId
+    dto:
+      name: CategoryInfoDto
+      fields:
+        id:
+          type: integer
+  put:
+    query: >-
+      UPDATE categories
+         SET name = :b.name
+           , name_ru = :b.name_ru
+           , slug = :b.slug
+           , updated_at = NOW()
+           , updated_by = :b.user_id
+       WHERE id = :p.categoryId
+  delete:
+    query: >-
+      DELETE
+        FROM categories
+       WHERE id = :p.categoryId
