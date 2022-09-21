@@ -7,7 +7,6 @@ on:
       - 'main'
     paths:
       - 'endpoints.yaml'
-      - '.github/workflows/generate.yaml'
 
 jobs:
   regenerate_code:
@@ -18,8 +17,6 @@ jobs:
         uses: actions/checkout@master
         with:
           path: 'generate'
-      - name: ls -la
-        run: ls -la
       - name: Checkout query2app
         uses: actions/checkout@master
         with:
