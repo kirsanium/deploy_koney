@@ -19,6 +19,8 @@ jobs:
       REPORT_LABEL: broken link report
       REPORT_REPOSITORY: github/docs-content
     steps:
+      - name: Checkout this repo
+        uses: actions/checkout@master
       - name: Checkout query2app
         uses: actions/checkout@master
         with:
@@ -34,8 +36,6 @@ jobs:
         run: ls -la
       - name: Generate python code
         run: ./src/cli.js --lang python
-      - name: Checkout this repo
-        uses: actions/checkout@master
       - name: Push generated files
         run: |
           git config user.name github-actions
