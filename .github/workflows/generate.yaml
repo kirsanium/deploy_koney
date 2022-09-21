@@ -22,12 +22,15 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@master
+        with:
+          path: 'generate'
       - name: ls -la
         run: ls -la
       - name: Checkout query2app
         uses: actions/checkout@master
         with:
           repository: php-coder/query2app
+          path: 'query2app'
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -37,8 +40,10 @@ jobs:
         run: npm ci
       - name: ls -la
         run: ls -la
+      - name: cd generate
+        run: cd generate
       - name: Generate python code
-        run: ./src/cli.js --lang python
+        run: ../query2app/src/cli.js --lang python
       - name: Push generated files
         run: |
           git config user.name github-actions
