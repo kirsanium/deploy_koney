@@ -86,3 +86,16 @@
         FROM categories
        WHERE id = :p.categoryId
 
+- path: /v1/test
+  get_list:
+    query: >-
+      SELECT id
+           , name
+           , name_ru
+           , slug
+        FROM categories
+    dto:
+      name: CategoryDto
+      fields:
+        id:
+          type: integer
