@@ -80,3 +80,7 @@ def put_v1_categories_category_id():
 def delete_v1_categories_category_id():
     pass
 
+@router.get('/v1/test')
+def get_list_v1_test():
+    pass
+
