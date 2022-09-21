@@ -18,11 +18,6 @@ jobs:
         uses: actions/checkout@master
         with:
           path: 'generate'
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.x
-          cache: npm
       - name: ls -la
         run: ls -la
       - name: Checkout query2app
@@ -30,6 +25,12 @@ jobs:
         with:
           repository: php-coder/query2app
           path: 'query2app'
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.x
+          cache: npm
+          cache-dependency-path: 'query2app'
       - name: cd query2app
         run: cd query2app
       - name: Install packages
