@@ -36,6 +36,8 @@ jobs:
         with:
           node-version: 16.13.x
           cache: npm
+      - name: cd query2app
+        run: cd query2app
       - name: Install packages
         run: npm ci
       - name: ls -la
