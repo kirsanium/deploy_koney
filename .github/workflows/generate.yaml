@@ -31,13 +31,13 @@ jobs:
         with:
           repository: php-coder/query2app
           path: 'query2app'
+      - name: cd query2app
+        run: cd query2app
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 16.13.x
           cache: npm
-      - name: cd query2app
-        run: cd query2app
       - name: Install packages
         run: npm ci
       - name: ls -la
