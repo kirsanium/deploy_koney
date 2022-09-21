@@ -34,6 +34,7 @@ jobs:
         run: ./src/cli.js --lang python
       - name: Checkout this repo
         uses: actions/checkout@master
+      - name: Push generated files
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
