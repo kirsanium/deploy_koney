@@ -49,9 +49,30 @@ def get_v1_collections_collection_id_categories_count(collectionId):
 def get_list_v1_categories():
     pass
 
+from pydantic import BaseModel
+
+class CreateCategoryDto(BaseModel):
+    name: str
+    name_ru: str
+    slug: str
+    user_id: int
+
 @router.post('/v1/categories')
-def post_v1_categories():
-    pass
+def post_v1_categories(categoryDto: CreateCategoryDto):
+    conn = psycopg2.connect(
+        database = os.getenv('DB_NAME'),
+        user = os.getenv('DB_USER'),
+        password = os.getenv('DB_PASSWORD'),
+        host = os.getenv('DB_HOST', 'localhost'),
+        port = 5432)
+    try:
+        with conn:
+            with conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor) as cur:
+                cur.execute('INSERT INTO categories (name, name_ru, slug, created_at, created_by, updated_at, updated_by) VALUES (%s, %s, %s, NOW(), %s, NOW(), %s)',
+                    (categoryDto.name, categoryDto.name_ru, categoryDto.slug, categoryDto.user_id, categoryDto.user_id))
+                conn.commit()
+    finally:
+        conn.close()
 
 @router.get('/v1/categories/{categoryId}')
 def get_v1_categories_category_id(categoryId):
