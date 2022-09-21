@@ -33,10 +33,10 @@ jobs:
           cache-dependency-path: 'query2app'
       - name: cd query2app
         run: cd query2app
-      - name: Install packages
-        run: npm ci
       - name: ls -la
         run: ls -la
+      - name: Install packages
+        run: npm ci
       - name: cd generate
         run: cd generate
       - name: Generate python code
